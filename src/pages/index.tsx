@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 
 import logo from '../images/chonk.png'
@@ -10,6 +10,16 @@ import cx from './index.module.scss'
 
 const IndexPage: React.FC = () => {
   const [clicked, setClicked] = useState(false)
+
+  const handleClick = async (event) => {
+    event.preventDefault()
+
+    await setClicked(true)
+    await setTimeout(null, 1000)
+    window.location.href = 'https://www.soundcloud.com/comua'
+    setTimeout(() => setClicked(false), 2500)
+  }
+
   return (
     <Layout>
       <SEO title="Comua" />
@@ -33,7 +43,7 @@ const IndexPage: React.FC = () => {
             >
               <motion.a
                 href="https://www.soundcloud.com/comua"
-                onClick={() => setClicked(true)}
+                onClick={(event) => handleClick(event)}
                 animate={{ scale: 1 }}
                 exit={{ scale: 5, transition: { duration: 1 } }}
               >
