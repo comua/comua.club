@@ -12,12 +12,16 @@ const IndexPage: React.FC = () => {
   const [clicked, setClicked] = useState(false)
 
   useEffect(() => {
-    if (window) {
-      window.addEventListener('pageshow', () => {
-        setClicked(false)
-      })
+    window.addEventListener('pageshow', resetClick)
+
+    return () => {
+      window.removeEventListener('pageshow', resetClick)
     }
   }, [])
+
+  const resetClick = () => {
+    setClicked(false)
+  }
 
   const handleClick = async (event) => {
     event.preventDefault()
