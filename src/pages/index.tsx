@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 
 import logo from '../images/chonk.png'
@@ -11,9 +11,13 @@ import cx from './index.module.scss'
 const IndexPage: React.FC = () => {
   const [clicked, setClicked] = useState(false)
 
-  window.addEventListener('pageshow', () => {
-    setClicked(false)
-  })
+  useEffect(() => {
+    if (window) {
+      window.addEventListener('pageshow', () => {
+        setClicked(false)
+      })
+    }
+  }, [])
 
   const handleClick = async (event) => {
     event.preventDefault()
