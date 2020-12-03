@@ -1,5 +1,5 @@
-import React from 'react'
-import { motion } from 'framer-motion'
+import React, { useState } from 'react'
+import { AnimatePresence, motion } from 'framer-motion'
 
 import logo from '../images/chonk.png'
 
@@ -8,24 +8,64 @@ import SEO from '../components/seo'
 
 import cx from './index.module.scss'
 
-const IndexPage: React.FC = () => (
-  <Layout>
-    <SEO title="Comua" />
-    <div className={cx.home}>
-      <a href="https://www.soundcloud.com/comua">
-        <motion.div
-          className={cx.home__link}
-          whileHover={{ scale: 1.1, transition: { duration: 0.2 } }}
-          whileTap={{ scale: 1, transition: { duration: 0.2 } }}
-        >
-          <img src={logo} className={cx.home__logo} alt="chonk" />
-        </motion.div>
-      </a>
-      <p>
-        Are you feeling <code>chonky</code>?
-      </p>
-    </div>
-  </Layout>
-)
+const IndexPage: React.FC = () => {
+  const [clicked, setClicked] = useState(false)
+  return (
+    <Layout>
+      <SEO title="Comua" />
+      <AnimatePresence>
+        {!clicked && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0, transition: { duration: 1 } }}
+          >
+            <motion.div
+              className={cx.home}
+              animate={{
+                backgroundPosition: ['0% 0%', '100% 100%', '0% 0%'],
+                transition: { repeat: Infinity, duration: 60, ease: 'easeInOut' },
+              }}
+              exit={{
+                backgroundPosition: ['0% 0%', '100% 100%', '0% 0%'],
+                transition: { repeat: Infinity, duration: 1, ease: 'easeInOut' },
+              }}
+            >
+              <motion.a
+                href="https://www.soundcloud.com/comua"
+                onClick={() => setClicked(true)}
+                animate={{ scale: 1 }}
+                exit={{ scale: 5, transition: { duration: 1 } }}
+              >
+                <motion.div
+                  className={cx.home__link}
+                  whileHover={{ scale: 1.1, transition: { duration: 0.2 } }}
+                  whileTap={{ scale: 1, transition: { duration: 0.2 } }}
+                >
+                  <motion.img
+                    src={logo}
+                    className={cx.home__logo}
+                    alt="chonk"
+                    animate={{
+                      transform: ['rotate(0deg)', 'rotate(360deg)'],
+                      transition: { repeat: Infinity, duration: 20, ease: 'linear' },
+                    }}
+                    exit={{
+                      transform: ['rotate(0deg)', 'rotate(360deg)'],
+                      transition: { repeat: Infinity, duration: 0.33, ease: 'linear' },
+                    }}
+                  />
+                </motion.div>
+              </motion.a>
+              <p>
+                Are you feeling <code>chonky</code>?
+              </p>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </Layout>
+  )
+}
 
 export default IndexPage
